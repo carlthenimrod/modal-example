@@ -1,4 +1,4 @@
-import { ApplicationRef, ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Injectable, Injector } from '@angular/core';
+import { ApplicationRef, ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Injectable, Injector, Type } from '@angular/core';
 
 import { ModalComponent } from './modal.component';
 
@@ -13,11 +13,12 @@ export class ModalService {
   ) { }
   componentRef: ComponentRef<ModalComponent>;
 
-  open(): void {
+  open(componentType: Type<any>): void {
     const factory = this.resolver.resolveComponentFactory(ModalComponent);
 
     this.componentRef = factory.create(this.injector);
 
+    this.componentRef.instance.componentType = componentType;
     this.componentRef.instance.clicked
       .subscribe(_ => this.close());
 

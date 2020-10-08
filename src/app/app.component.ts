@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { ModalService } from './modal/modal.service';
+import { ExampleComponent } from './example/example.component';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,11 @@ import { ModalService } from './modal/modal.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(public modalService: ModalService) { }
+  constructor(private modalService: ModalService) { }
 
   title = 'modal';
+
+  onClick(): void {
+    this.modalService.open(ExampleComponent);
+  }
 }

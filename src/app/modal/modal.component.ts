@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener } from '@angular/core';
+import { AfterViewInit, Component, ComponentFactoryResolver, EventEmitter, HostListener, Injector, Type, ViewChild, ViewContainerRef } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
@@ -14,13 +14,28 @@ import { Component, EventEmitter, HostListener } from '@angular/core';
     }
   `],
   template: `
-
+    <ng-container #vc></ng-container>
   `
 })
-export class ModalComponent {
+export class ModalComponent implements AfterViewInit {
+  @ViewChild('vc', { read: ViewContainerRef })
+  vc: ViewContainerRef;
+
+  componentType: Type<any>;
+
   clicked = new EventEmitter<void>();
+
+  constructor(
+    private resolver: ComponentFactoryResolver
+  ) { }
 
   @HostListener('click') onClick(): void {
     this.clicked.emit();
+  }
+
+  ngAfterViewInit(): void {
+    const factory = this.resolver.resolveComponentFactory(this.componentType);
+
+    this.vc.createComponent(factory);
   }
 }
