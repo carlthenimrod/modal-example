@@ -1,6 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 
 import { MODAL_DATA } from '../modal/modal';
+import { ModalService } from '../modal/modal.service';
 
 @Component({
   selector: 'app-example',
@@ -22,12 +23,18 @@ import { MODAL_DATA } from '../modal/modal';
     <p>This is example...</p>
   `
 })
-export class ExampleComponent implements OnInit {
+export class ExampleComponent implements OnInit, OnDestroy {
   constructor(
-    @Inject(MODAL_DATA) private data: any
+    @Inject(MODAL_DATA)
+    private data: any,
+    private modalService: ModalService
   ) { }
 
   ngOnInit(): void {
     console.log(this.data);
+  }
+
+  ngOnDestroy(): void {
+    this.modalService.onClose('Hello World!');
   }
 }

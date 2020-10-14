@@ -15,5 +15,8 @@ export class AppComponent {
 
   onClick(): void {
     this.modalService.open(ExampleComponent, { hello: 'world' });
+
+    this.modalService.closed$
+      .subscribe(data => console.log(data));
   }
 }

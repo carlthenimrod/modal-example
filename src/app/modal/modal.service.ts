@@ -2,11 +2,15 @@ import { ApplicationRef, ComponentFactoryResolver, ComponentRef, EmbeddedViewRef
 
 import { ModalComponent } from './modal.component';
 import { MODAL_DATA } from './modal';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ModalService {
+  private closedSubject = new Subject<any>();
+  closed$ = this.closedSubject.asObservable();
+
   constructor(
     private appRef: ApplicationRef,
     private injector: Injector,
@@ -40,5 +44,9 @@ export class ModalService {
 
     const view = this.componentRef.hostView;
     this.appRef.detachView(view);
+  }
+
+  onClose(data: any): void {
+    this.closedSubject.next(data);
   }
 }
