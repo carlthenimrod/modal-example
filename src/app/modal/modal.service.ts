@@ -1,6 +1,7 @@
 import { ApplicationRef, ComponentFactoryResolver, ComponentRef, EmbeddedViewRef, Injectable, Injector, Type } from '@angular/core';
 
 import { ModalComponent } from './modal.component';
+import { MODAL_DATA } from './modal';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,15 @@ export class ModalService {
   ) { }
   componentRef: ComponentRef<ModalComponent>;
 
-  open(componentType: Type<any>): void {
+  open(componentType: Type<any>, data?: any): void {
     const factory = this.resolver.resolveComponentFactory(ModalComponent);
 
-    this.componentRef = factory.create(this.injector);
+    const injector = Injector.create({
+      providers: [{ provide: MODAL_DATA, useValue: data }],
+      parent: this.injector
+    });
+
+    this.componentRef = factory.create(injector);
 
     this.componentRef.instance.componentType = componentType;
     this.componentRef.instance.clicked

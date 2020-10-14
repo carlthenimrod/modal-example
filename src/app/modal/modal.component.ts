@@ -1,4 +1,6 @@
-import { AfterViewInit, Component, ComponentFactoryResolver, EventEmitter, HostListener, Injector, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component,
+  ComponentFactoryResolver, EventEmitter, HostListener,
+  Type, ViewChild, ViewContainerRef } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
@@ -26,6 +28,7 @@ export class ModalComponent implements AfterViewInit {
   clicked = new EventEmitter<void>();
 
   constructor(
+    private ref: ChangeDetectorRef,
     private resolver: ComponentFactoryResolver
   ) { }
 
@@ -37,5 +40,7 @@ export class ModalComponent implements AfterViewInit {
     const factory = this.resolver.resolveComponentFactory(this.componentType);
 
     this.vc.createComponent(factory);
+
+    this.ref.detectChanges();
   }
 }

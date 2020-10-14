@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+
+import { MODAL_DATA } from '../modal/modal';
 
 @Component({
   selector: 'app-example',
@@ -20,4 +22,12 @@ import { Component } from '@angular/core';
     <p>This is example...</p>
   `
 })
-export class ExampleComponent { }
+export class ExampleComponent implements OnInit {
+  constructor(
+    @Inject(MODAL_DATA) private data: any
+  ) { }
+
+  ngOnInit(): void {
+    console.log(this.data);
+  }
+}

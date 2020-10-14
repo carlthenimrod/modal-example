@@ -14,6 +14,6 @@ export class AppComponent {
   title = 'modal';
 
   onClick(): void {
-    this.modalService.open(ExampleComponent);
+    this.modalService.open(ExampleComponent, { hello: 'world' });
   }
 }
